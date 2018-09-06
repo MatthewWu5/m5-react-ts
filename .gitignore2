@@ -1,0 +1,110 @@
+[README.md by create-react-app](https://github.com/facebook/create-react-app/blob/next/README.md)
+
+- `yarn eject` to get webpack files
+- Add homepage in package.json to resolve the relative url issue on github page server
+- `yarn add precss` to support CSS Module
+```js
+{
+           test: /\.css$|\.scss/,
+           use: [
+             {
+               loader: require.resolve('postcss-loader'),
+               options: {
+                 ident: 'postcss',
+                 plugins: () => [
+                   require('postcss-flexbugs-fixes'),
+                   require('precss'),
+                   autoprefixer({
+                     browsers: [
+                       '>1%',
+                       'last 4 versions',
+                       'Firefox ESR',
+                       'not ie < 9' // React doesn't support IE8 anyway
+                     ],
+                     flexbox: 'no-2009'
+                   })
+                 ]
+               }
+             }
+           ]
+         }
+```
+Point
+- [x] add @ to resolve absolute path
+- [x] resolve quote check and unused check
+- [x] use version 5.0-alpha of `react-router-redux` instead of version 4
+- [x] add createStore and default middleware `redux-thunk` 
+- [x] add createAction and handleAction by `redux-actions` 
+- [x] use `composeWithDevTools` from `redux-devtools-extension` to view redux-tool in chrome dev tool
+- [x] research middleware redux-thunk, redux-saga, redux-promise
+  https://segmentfault.com/a/1190000009928167  
+
+- [x] advantage of saga by author  
+  [answer](https://stackoverflow.com/questions/34930735/pros-cons-of-using-redux-saga-with-es6-generators-vs-redux-thunk-with-es2017-asy/34933395#34933395)  
+  [demo](http://jsbin.com/sodowa/9/edit?js,console)
+- [x] check saga promise resolve
+- [x] try async request without saga
+- [x] add type(state type, reducer type)  
+- [x] add immutable
+- [x] add immutable package reference path
+- [x] research context
+- [ ] add check script(ts or sth, ask wesley)
+- [x] add pre-commit format and test by `husky`
+- [x] add jest test
+- [x] jest action - how to mock http request in action creator without saga
+- [x] RouteComponentProps
+- [x] sock-js and socket.io  
+  https://xsnippet.org/359042/
+- [ ] add login, token, session
+- [x] research antd form
+- [ ] research antd table
+- [x] No need to write a any type by `"noImplicitAny": false,` in tsconfig, but is it right way?
+- [x] research history  
+  3 ways in App.tsx
+  - `Props & RouteComponentProps<{}>` `this.props.history.push/replace`
+  - `import history from '@/redux/history'` `history.push/replace`
+  - first: add middleware `routerMiddleware(history)`  
+    second: `import { replace, push } from 'react-router-redux'` and `dispatch push/replace and this.props.push/replace`
+- [ ] research React
+  - research react syntax `pureComponent` `shouldComponentUpdate`
+  - dva
+  - linkState
+- [x] add dva
+- [ ] Observable, Rxjs  
+- [x] `type ReducerType = { [key in keyof IRoot]: any }` 
+- [ ] webpack build, devServer config, module
+- [ ] serviceWorker, registerServiceWorker.js
+- [ ] CSRF
+- [ ] try to upgrade to webpack4
+- [ ] performance in chrome dev tool 
+  https://www.jianshu.com/p/b28ead989b24  
+  https://segmentfault.com/a/1190000008809168
+
+  
+Why
+- ConnectedRouter  
+  why `ConnectedRouter` in `react-router-redux` but Router in version 4:  
+  ConnectedRouter dispatch action '@@router/LOCATION_CHANGE', but Router cannot do it
+
+- why use `<Switch>`:  
+  https://www.jianshu.com/p/ed5e56994f13
+
+- redux-thunk  
+   `redux-thunk` ensure you can `store.dispatch(function)`, by default `store.dispatch()` can only send obj `{type: "DO_SOMETHING"}`, and you can use it with `async` `await`
+
+- redux-promise  
+  ensure you can dispatch a `function return promise`, it will `dispatch(resolve(function promise()))`
+
+- [ ] redux-promise-middleware
+- redux-saga  
+  https://segmentfault.com/a/1190000009928167
+
+  相比Redux Thunk，使用Redux Saga有几处明显的变化：  
+  在组件中，不再dispatch(action creator)，而是dispatch(pure action)
+  组件中不再关注由谁来处理当前action，action经由root saga分发
+  具体业务处理方法中，通过提供的call/put等帮助方法，声明式的进行方法调用
+  使用ES6 Generator语法，简化异步代码语法
+  除开上述这些不同点，Redux Saga真正的威力，在于其提供了一系列帮助方法，使得对于各类事件可以进行更细粒度的控制，从而完成更加复杂的操作
+  
+- [ ] why namespace in .d.ts
+- [ ] why :local in index.scss
